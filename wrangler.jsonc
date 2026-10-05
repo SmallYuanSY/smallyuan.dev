@@ -1,0 +1,6 @@
+// Cloudflare Workers static assets: Workers Builds runs `npm run build`, then `npx wrangler deploy`.
+{
+  "name": "smallyuan-dev",
+  "compatibility_date": "2026-10-01",
+  "assets": { "directory": "./dist" }
+}
