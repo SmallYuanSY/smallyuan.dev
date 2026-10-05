@@ -1,0 +1,159 @@
+<title>SmallYuan Style Options</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter+Tight:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+/* Layout: one full homepage mockup, dark-first liquid glass — glass nav pill, hero, glass chat card (featured), glass list of chores→builds, links, contact; then a short note on how entries are maintained */
+:root{
+  color-scheme:dark;
+  --ink:#0b0d12;          /* page ground */
+  --fg:#f2f4f8;           /* primary text */
+  --dim:#a3abbd;          /* secondary text */
+  --glass:rgba(255,255,255,.07);
+  --glass-hi:rgba(255,255,255,.22);
+  --glass-edge:rgba(255,255,255,.14);
+  --me:rgba(10,132,255,.85);  /* system-blue bubble */
+  --ok:#30d158;           /* system-green check */
+  --warm:#ffb454;
+  --f-display:"Inter Tight","Noto Sans TC",-apple-system,BlinkMacSystemFont,sans-serif;
+  --f-body:"Noto Sans TC","Inter Tight",-apple-system,BlinkMacSystemFont,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --r-xl:28px; --r-lg:20px; --r-pill:999px;
+}
+*{box-sizing:border-box}
+body{background:var(--ink);color:var(--fg);font:15px/1.65 var(--f-body);padding-inline:16px;padding-block:28px 72px;overflow-x:hidden}
+.page{max-width:980px;margin:0 auto;display:grid;gap:22px}
+.review{display:grid;gap:6px;max-width:70ch}
+.review h1{font:600 1.35rem/1.3 var(--f-display);margin:0}
+.review p{margin:0;color:var(--dim);font-size:.92rem}
+
+/* the mock site */
+.site{position:relative;isolation:isolate;border-radius:var(--r-xl);overflow:hidden;border:1px solid var(--glass-edge);padding:22px clamp(16px,4vw,44px) 40px;display:grid;gap:34px;background:#0d1018}
+.blob{position:absolute;z-index:-1;border-radius:50%;filter:blur(60px);opacity:.75}
+.b1{width:420px;height:420px;max-width:80%;left:-120px;top:-140px;background:radial-gradient(circle,#2f6bff,transparent 65%);animation:drift 22s ease-in-out infinite alternate}
+.b2{width:380px;height:380px;max-width:70%;right:-110px;top:120px;background:radial-gradient(circle,#ff8a3d,transparent 65%);opacity:.5;animation:drift 26s ease-in-out infinite alternate-reverse}
+.b3{width:460px;height:460px;max-width:80%;left:30%;bottom:-220px;background:radial-gradient(circle,#8b5cf6,transparent 65%);opacity:.55;animation:drift 30s ease-in-out infinite alternate}
+@keyframes drift{to{transform:translate(40px,30px) scale(1.08)}}
+@media (prefers-reduced-motion:reduce){.blob{animation:none}}
+
+.glass{background:linear-gradient(160deg,rgba(255,255,255,.13),rgba(255,255,255,.04) 45%,rgba(255,255,255,.07));-webkit-backdrop-filter:blur(26px) saturate(180%);backdrop-filter:blur(26px) saturate(180%);border:1px solid var(--glass-edge);box-shadow:inset 0 1px 0 var(--glass-hi),inset 0 -1px 0 rgba(255,255,255,.04),0 10px 40px rgba(0,0,0,.35)}
+
+.nav{position:sticky;top:0;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 8px 8px 18px;border-radius:var(--r-pill)}
+.nav .me{font:600 15px var(--f-display);letter-spacing:-.01em}
+.nav .seg{display:flex;padding:3px;border-radius:var(--r-pill);background:rgba(0,0,0,.25);font:500 12px var(--f-display)}
+.nav .seg span{padding:5px 12px;border-radius:var(--r-pill);color:var(--dim)}
+.nav .seg span.on{background:rgba(255,255,255,.18);color:var(--fg);box-shadow:inset 0 1px 0 var(--glass-hi)}
+
+.hero{display:grid;gap:14px;padding-top:12px}
+.hero h2{font:700 clamp(2rem,5.6vw,3.5rem)/1.18 var(--f-body);letter-spacing:-.015em;margin:0;max-width:17ch;text-wrap:balance}
+.hero h2 em{font-style:normal;background:linear-gradient(90deg,#ffd29a,var(--warm));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .role{font:500 14px var(--f-display);color:var(--dim)}
+.hero .how{max-width:56ch;margin:4px 0 0;color:#d6dbe6}
+
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:18px;align-items:start}
+@media (max-width:760px){.two{grid-template-columns:1fr}}
+
+.card{border-radius:var(--r-lg);padding:18px;display:grid;gap:12px;min-width:0}
+.card .lbl{font:500 12px var(--f-mono);color:var(--dim);display:flex;justify-content:space-between;gap:10px}
+.chat{display:grid;gap:9px}
+.msg{max-width:88%;padding:9px 14px;border-radius:18px;font-size:.93rem;line-height:1.5}
+.msg.u{justify-self:end;background:var(--me);border-bottom-right-radius:6px;box-shadow:inset 0 1px 0 rgba(255,255,255,.3)}
+.msg.a{justify-self:start;background:rgba(255,255,255,.1);border:1px solid var(--glass-edge);border-bottom-left-radius:6px}
+.tool{justify-self:start;font:12px/1.7 var(--f-mono);color:var(--dim);display:flex;flex-wrap:wrap;gap:4px 12px;padding-left:4px}
+.tool b{color:var(--ok);font-weight:500}
+.dots{display:flex;gap:6px;justify-content:center}
+.dots i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.25)}
+.dots i.on{background:var(--fg)}
+
+.rows{display:grid}
+.row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;padding:12px 4px;border-bottom:1px solid rgba(255,255,255,.08);align-items:center}
+.row:last-child{border-bottom:0}
+.row .from{color:var(--dim);font-size:.86rem;grid-column:1}
+.row .to{font-weight:500;grid-column:1}
+.row .chip{grid-column:2;grid-row:1 / span 2;font:500 11px var(--f-mono);padding:4px 9px;border-radius:var(--r-pill);background:rgba(255,255,255,.08);border:1px solid var(--glass-edge);color:var(--fg);white-space:nowrap}
+.row.sel{background:rgba(255,255,255,.06);border-radius:12px;border-bottom-color:transparent}
+
+.bottom{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:14px}
+.links{display:flex;flex-wrap:wrap;gap:10px}
+.links a{color:var(--fg);text-decoration:none;font:500 14px var(--f-display);padding:9px 16px;border-radius:var(--r-pill)}
+.mail{display:flex;align-items:center;gap:10px;font:14px var(--f-mono);color:var(--dim)}
+.mail b{color:var(--fg);font-weight:500}
+.mail button{font:500 12px var(--f-display);color:var(--fg);border:1px solid var(--glass-edge);background:rgba(255,255,255,.08);border-radius:var(--r-pill);padding:5px 12px;cursor:pointer}
+.mail button:focus-visible,.links a:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
+
+/* maintenance note */
+.how-data{display:grid;gap:12px;border:1px solid rgba(255,255,255,.1);border-radius:var(--r-lg);padding:18px;background:#10131b}
+.how-data h3{font:600 1.05rem var(--f-display);margin:0}
+.how-data p{margin:0;color:var(--dim);max-width:72ch}
+.how-data pre{margin:0;overflow-x:auto;background:#0a0c12;border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:14px;font:12.5px/1.65 var(--f-mono);color:#cfd6e4}
+.how-data pre .c{color:#6b7488}
+.how-data pre .k{color:#7aa2f7}
+.how-data pre .s{color:#ffd29a}
+</style>
+
+<div class="page">
+  <header class="review">
+    <h1>合併版：深色 + Liquid Glass</h1>
+    <p>結構跟上一版一樣。上面是首頁樣稿，下面說明每一則例子怎麼維護，回答「skill 要怎麼抓」的問題。文案和例子都還是初稿。</p>
+  </header>
+
+  <div class="site">
+    <span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span>
+
+    <nav class="nav glass"><span class="me">SmallYuan</span><span class="seg"><span class="on">中</span><span>EN</span></span></nav>
+
+    <section class="hero">
+      <span class="role">全端與軟體工程師 · Full-stack &amp; software engineer</span>
+      <h2>我把生活裡的麻煩事，一件一件做成<em>好玩的東西</em>。</h2>
+      <p class="how">我寫程式的方式，是跟 Claude Code、Codex 這些 agent 一起寫。想到什麼麻煩，就讓 agent 幫我把它變成一個會自己動的小系統。</p>
+    </section>
+
+    <section class="two">
+      <div class="card glass">
+        <div class="lbl"><span>實際對話</span><span>1 / 4</span></div>
+        <div class="chat">
+          <div class="msg u">我要出門了</div>
+          <div class="tool"><span><b>✓</b> 冷氣 82°F</span><span><b>✓</b> 關燈</span><span><b>✓</b> 記錄出門</span></div>
+          <div class="msg a">好～路上小心，下午會下雨，記得帶傘喔</div>
+        </div>
+        <div class="dots"><i class="on"></i><i></i><i></i><i></i></div>
+      </div>
+
+      <div class="card glass">
+        <div class="lbl"><span>麻煩事 → 做成的東西</span><span>4</span></div>
+        <div class="rows">
+          <div class="row sel"><span class="from">出門回家要開關冷氣燈光</span><span class="to">說「我出門了」就全部處理好</span><span class="chip">presence</span></div>
+          <div class="row"><span class="from">每天查天氣</span><span class="to">用 Apple 天氣提醒我帶傘</span><span class="chip">macos-weather</span></div>
+          <div class="row"><span class="from">記帳記到一半就忘</span><span class="to">一句話記好，月底自動出報表</span><span class="chip">finance</span></div>
+          <div class="row"><span class="from">想跟朋友玩 Minecraft</span><span class="to">自己架一台伺服器</span><span class="chip">project</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="bottom">
+      <div class="links"><a class="glass" href="#">GitHub</a><a class="glass" href="#">Feiyu skills</a></div>
+      <div class="mail"><b>yuan@smallyuan.dev</b><button type="button" id="copy">複製</button></div>
+    </section>
+  </div>
+
+  <section class="how-data">
+    <h3>每則例子怎麼維護</h3>
+    <p>右邊清單和左邊對話來自同一份資料：每件「麻煩事」是一個小檔案。點右邊某一列，左邊就換成那一列的對話。對話是挑過、寫死的示範，不會即時去抓飛予的紀錄，所以不用處理隱私，也不會壞掉。有對應 skill 的，chip 直接連到 skill 頁。</p>
+<pre><span class="c"># src/content/chores/leave-home.md</span>
+<span class="k">order</span>: 1
+<span class="k">skill</span>: <span class="s">presence</span>          <span class="c"># 沒有就填 project 或留空</span>
+<span class="k">from</span>:  { zh: <span class="s">出門回家要開關冷氣燈光</span>, en: <span class="s">Turning the AC and lights on and off</span> }
+<span class="k">to</span>:    { zh: <span class="s">說「我出門了」就全部處理好</span>, en: <span class="s">Say "heading out" and it's handled</span> }
+<span class="k">chat</span>:
+  - { who: me,    zh: <span class="s">我要出門了</span>,  en: <span class="s">Heading out</span> }
+  - { who: tool,  items: [<span class="s">冷氣 82°F</span>, <span class="s">關燈</span>, <span class="s">記錄出門</span>] }
+  - { who: agent, zh: <span class="s">好～路上小心…</span>, en: <span class="s">Have a good one…</span> }</pre>
+    <p>新增一則例子 = 叫我或 Codex 多寫一個檔案。之後 skills repo 做好，skill 的名稱和連結也可以從那邊自動帶進來。</p>
+  </section>
+</div>
+
+<script>
+document.getElementById('copy').addEventListener('click', e => {
+  const b = e.currentTarget;
+  navigator.clipboard?.writeText('yuan@smallyuan.dev').then(() => { b.textContent = '已複製'; }).catch(() => { b.textContent = '請手動複製'; });
+});
+</script>
