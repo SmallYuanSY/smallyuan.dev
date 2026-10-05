@@ -51,6 +51,15 @@ describe('nav', () => {
     }
   });
 
+  it('shows the English hint as a fixed overlay so revealing it never shifts the page', () => {
+    expect(readAllCss()).toMatch(/\.lang-hint[^{,]*\{[^}]*position:\s*fixed/);
+  });
+
+  it('announces the English hint and keeps the page bottom reachable while it shows', () => {
+    expect(loadPage('/').querySelector('[data-lang-hint]')!.getAttribute('role')).toBe('status');
+    expect(readAllCss()).toMatch(/:has\(\[data-lang-hint\]:not\(\[hidden\]\)\)[^{]*\.page[^{]*\{[^}]*padding-bottom/);
+  });
+
   it('renders the English hint hidden, on the zh page only', () => {
     expect(loadPage('/').querySelector('[data-lang-hint]')!.hasAttribute('hidden')).toBe(true);
     expect(loadPage('/en/').querySelector('[data-lang-hint]')).toBeNull();
