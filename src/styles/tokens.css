@@ -1,0 +1,37 @@
+/* Layout: one centered column; hero, then a two-card showcase, then links/contact, all over a drifting glow */
+:root {
+  color-scheme: dark;
+  --ink: #0b0d12;
+  --ink-raised: #0d1018;
+  --fg: #f2f4f8;
+  --dim: #a3abbd;
+  --soft: #d6dbe6;
+  --edge: rgba(255, 255, 255, 0.14);
+  --hi: rgba(255, 255, 255, 0.22);
+  --me: rgba(10, 132, 255, 0.85);
+  --ok: #30d158;
+  --warm: #ffb454;
+  --warm-2: #ffd29a;
+  --glow-1: #2f6bff;
+  --glow-2: #ff8a3d;
+  --glow-3: #8b5cf6;
+  --f-display: 'Inter Tight', 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+  --f-body: 'Noto Sans TC', 'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
+  --f-mono: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+  --r-lg: 20px;
+  --r-pill: 999px;
+}
+
+.glass {
+  background: rgba(22, 26, 36, 0.82);
+  border: 1px solid var(--edge);
+  box-shadow: inset 0 1px 0 var(--hi), 0 10px 40px rgba(0, 0, 0, 0.35);
+}
+
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass {
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.04) 45%, rgba(255, 255, 255, 0.07));
+    -webkit-backdrop-filter: blur(26px) saturate(180%);
+    backdrop-filter: blur(26px) saturate(180%);
+  }
+}
