@@ -88,3 +88,20 @@ describe('css fallbacks', () => {
     expect(css).toMatch(/color-scheme:\s*dark/);
   });
 });
+
+describe('contact', () => {
+  for (const path of ['/', '/en/']) {
+    it(`${path}: shows email, copy button and GitHub link`, () => {
+      const doc = loadPage(path);
+      expect(doc.querySelector('[data-email]')!.textContent!.trim()).toBe('yuan@smallyuan.dev');
+      const btn = doc.querySelector('button[data-copy]')!;
+      expect(btn.getAttribute('data-done')).toBeTruthy();
+      expect(btn.getAttribute('data-manual')).toBeTruthy();
+      expect([...doc.querySelectorAll('a')].some((a) => a.getAttribute('href') === 'https://github.com/SmallYuanSY')).toBe(true);
+    });
+
+    it(`${path}: still ships its scripts (loadPage empties script bodies)`, () => {
+      expect(loadPage(path).querySelectorAll('script').length).toBeGreaterThanOrEqual(1);
+    });
+  }
+});

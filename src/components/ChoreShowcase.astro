@@ -72,3 +72,8 @@ const t = strings[lang];
   .to { font-weight: 500; overflow-wrap: anywhere; }
   .chip { font: 500 11px var(--f-mono); padding: 4px 9px; border-radius: var(--r-pill); background: rgba(255, 255, 255, 0.08); border: 1px solid var(--edge); white-space: nowrap; text-decoration: none; }
 </style>
+
+<script>
+  import { initShowcase } from '../scripts/showcase';
+  document.querySelectorAll<HTMLElement>('[data-showcase]').forEach(initShowcase);
+</script>

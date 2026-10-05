@@ -1,0 +1,32 @@
+---
+import { strings, EMAIL, GITHUB_URL, type Lang } from '../i18n/strings';
+
+interface Props { lang: Lang }
+const t = strings[Astro.props.lang];
+---
+<section class="bottom">
+  <nav class="links" aria-label={t.linksLabel}>
+    <a class="glass" href={GITHUB_URL}>GitHub</a>
+  </nav>
+  <p class="mail">
+    <span data-email>{EMAIL}</span>
+    <button type="button" data-copy data-done={t.copied} data-manual={t.copyManual}>{t.copy}</button>
+  </p>
+</section>
+
+<script>
+  import { initCopy } from '../scripts/copy';
+  document.querySelectorAll<HTMLButtonElement>('button[data-copy]').forEach((button) => {
+    const target = button.parentElement?.querySelector<HTMLElement>('[data-email]');
+    if (target) initCopy(button, target, { done: button.dataset.done ?? '', manual: button.dataset.manual ?? '' });
+  });
+</script>
+
+<style>
+  .bottom { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 14px; }
+  .links { display: flex; flex-wrap: wrap; gap: 10px; }
+  .links a { font: 500 14px var(--f-display); padding: 9px 16px; border-radius: var(--r-pill); text-decoration: none; }
+  .mail { margin: 0; display: flex; align-items: center; gap: 10px; font: 14px var(--f-mono); color: var(--fg); }
+  .mail span { user-select: all; }
+  .mail button { font: 500 12px var(--f-display); color: var(--fg); border: 1px solid var(--edge); background: rgba(255, 255, 255, 0.08); border-radius: var(--r-pill); padding: 5px 12px; cursor: pointer; }
+</style>

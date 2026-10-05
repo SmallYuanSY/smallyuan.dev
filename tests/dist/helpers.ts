@@ -6,7 +6,11 @@ const DIST = new URL('../../dist/', import.meta.url).pathname;
 
 export function loadPage(path: string): Document {
   const file = join(DIST, path.replace(/^\//, ''), 'index.html');
-  const html = readFileSync(file, 'utf8');
+  // happy-dom 20.14.5's DOMParser breaks on `<` followed by a non-space inside <script>
+  // (minified inline scripts contain e.g. `n<t.length`), dropping all DOM after it:
+  // '<script>var a=1<2</script><p id=x>ok</p>' → #x not found. Browsers treat script as raw text.
+  // Empty script bodies (keeping the tags) before parsing; remove once happy-dom fixes this.
+  const html = readFileSync(file, 'utf8').replace(/(<script\b[^>]*>)[\s\S]*?(<\/script>)/gi, '$1$2');
   const window = new Window();
   return new window.DOMParser().parseFromString(html, 'text/html') as unknown as Document;
 }

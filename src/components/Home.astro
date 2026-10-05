@@ -4,6 +4,7 @@ import Base from '../layouts/Base.astro';
 import Nav from './Nav.astro';
 import Hero from './Hero.astro';
 import ChoreShowcase from './ChoreShowcase.astro';
+import Contact from './Contact.astro';
 import { strings, type Lang } from '../i18n/strings';
 import { toChoreViews } from '../lib/chores';
 
@@ -15,4 +16,5 @@ const chores = toChoreViews(await getCollection('chores'), lang, strings[lang].p
   <Nav lang={lang} />
   <Hero lang={lang} />
   <ChoreShowcase lang={lang} chores={chores} />
+  <Contact lang={lang} />
 </Base>
