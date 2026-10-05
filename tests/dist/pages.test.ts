@@ -89,6 +89,15 @@ describe('css fallbacks', () => {
     expect(css).toMatch(/color-scheme:\s*dark/);
   });
 
+  it('keeps the -webkit- prefixed backdrop-filter for Safari before 18', () => {
+    expect(readAllCss()).toMatch(/-webkit-backdrop-filter/);
+  });
+
+  it('gives .glass a solid fill outside any @supports block', () => {
+    const outside = readAllCss().replace(/@supports[^{]*\{(?:[^{}]*\{[^}]*\})*[^{}]*\}/g, '');
+    expect(outside).toMatch(/\.glass\{[^}]*background:\s*(rgba?\(|#)/);
+  });
+
   it('isolates body so the z-index:-1 glow paints above its opaque background', () => {
     expect(readAllCss()).toMatch(/body\s*\{[^}]*isolation:\s*isolate/);
   });
