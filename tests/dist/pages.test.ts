@@ -1,3 +1,4 @@
+import { existsSync, readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { loadPage, readAllCss, readAllOutput } from './helpers';
 
@@ -111,8 +112,15 @@ describe('contact', () => {
 });
 
 describe('privacy', () => {
-  const forbidden: string[] = []; // list lives in git-ignored tests/dist/private-terms.local.txt
-  it('contains none of the private strings', () => {
+  // The real term list stays out of git: publishing it would leak exactly what it guards.
+  // See private-terms.example.txt for the format.
+  const termsFile = new URL('./private-terms.local.txt', import.meta.url);
+  const forbidden = existsSync(termsFile)
+    ? readFileSync(termsFile, 'utf8').split('\n').map((l) => l.trim()).filter((l) => l && !l.startsWith('#'))
+    : [];
+  if (forbidden.length === 0) console.warn('privacy: tests/dist/private-terms.local.txt missing or empty — private-string check skipped');
+
+  it.skipIf(forbidden.length === 0)('contains none of the private strings', () => {
     const out = readAllOutput();
     const hits = forbidden.filter((s) => out.includes(s));
     expect(hits).toEqual([]);

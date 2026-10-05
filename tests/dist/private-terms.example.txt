@@ -1,0 +1,6 @@
+# Copy to private-terms.local.txt (git-ignored) and list one private term per line.
+# The privacy test fails the build output check if any term appears in dist/.
+# Lines starting with # and blank lines are ignored.
+example@gmail.com
+your-neighborhood
+light.example_entity
