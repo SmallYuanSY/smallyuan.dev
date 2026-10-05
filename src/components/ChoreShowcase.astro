@@ -1,0 +1,74 @@
+---
+import { strings, type Lang } from '../i18n/strings';
+import type { ChoreView } from '../lib/chores';
+
+interface Props { lang: Lang; chores: ChoreView[] }
+const { lang, chores } = Astro.props;
+const t = strings[lang];
+---
+{chores.length > 0 && (
+  <section class="showcase" data-showcase>
+    <div class="card glass chat-card">
+      <div class="lbl"><span>{t.chatLabel}</span><span data-counter>1 / {chores.length}</span></div>
+      {chores.map((c, i) => (
+        <div class="chat" data-chat={i} hidden={i !== 0}>
+          {c.chat.map((line) =>
+            line.who === 'tool' ? (
+              <p class="tool">{line.items.map((item) => <span><b aria-hidden="true">✓</b> {item}</span>)}</p>
+            ) : (
+              <p class={`msg ${line.who}`}>{line.text}</p>
+            ),
+          )}
+        </div>
+      ))}
+      <div class="dots">
+        {chores.map((_, i) => (
+          <button type="button" class="dot" data-select={i} aria-pressed={i === 0 ? 'true' : 'false'} aria-label={t.selectExample.replace('{n}', String(i + 1))}></button>
+        ))}
+      </div>
+    </div>
+
+    <div class="card glass list-card">
+      <div class="lbl"><span>{t.listLabel}</span><span>{chores.length}</span></div>
+      <ul class="rows">
+        {chores.map((c, i) => (
+          <li class="row-item">
+            <button type="button" class="row" data-select={i} aria-pressed={i === 0 ? 'true' : 'false'}>
+              <span class="from">{c.from}</span>
+              <span class="to">{c.to}</span>
+            </button>
+            {c.link ? <a class="chip" href={c.link}>{c.chip}</a> : <span class="chip">{c.chip}</span>}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+)}
+
+<style>
+  .showcase { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 18px; align-items: start; }
+  @media (max-width: 760px) { .showcase { grid-template-columns: 1fr; } }
+  .card { min-width: 0; border-radius: var(--r-lg); padding: 18px; display: grid; gap: 12px; }
+  .lbl { display: flex; justify-content: space-between; gap: 10px; font: 500 12px var(--f-mono); color: var(--dim); }
+  .chat { display: grid; gap: 9px; }
+  .chat[hidden] { display: none; }
+  .msg { margin: 0; max-width: 88%; padding: 9px 14px; border-radius: 18px; font-size: 0.95rem; line-height: 1.5; overflow-wrap: anywhere; }
+  .msg.me { justify-self: end; background: var(--me); border-bottom-right-radius: 6px; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3); }
+  .msg.agent { justify-self: start; background: rgba(255, 255, 255, 0.1); border: 1px solid var(--edge); border-bottom-left-radius: 6px; }
+  .tool { margin: 0; justify-self: start; display: flex; flex-wrap: wrap; gap: 4px 12px; padding-left: 4px; font: 12px/1.7 var(--f-mono); color: var(--dim); overflow-wrap: anywhere; }
+  .tool b { color: var(--ok); font-weight: 500; }
+  .dots { display: flex; gap: 4px; justify-content: center; }
+  [data-showcase]:not([data-ready]) .dots { display: none; }
+  .dot { width: 24px; height: 24px; padding: 0; border: 0; background: none; cursor: pointer; display: grid; place-items: center; }
+  .dot::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: rgba(255, 255, 255, 0.25); }
+  .dot[aria-pressed='true']::before { background: var(--fg); }
+  .rows { list-style: none; margin: 0; padding: 0; display: grid; }
+  .row-item { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+  .row-item:last-child { border-bottom: 0; }
+  .row { min-width: 0; display: grid; gap: 2px; padding: 12px 8px; text-align: left; font: inherit; color: inherit; background: none; border: 0; border-radius: 12px; cursor: pointer; }
+  .row[aria-pressed='true'] { background: rgba(255, 255, 255, 0.06); }
+  .row:hover { background: rgba(255, 255, 255, 0.04); }
+  .from { color: var(--dim); font-size: 0.86rem; overflow-wrap: anywhere; }
+  .to { font-weight: 500; overflow-wrap: anywhere; }
+  .chip { font: 500 11px var(--f-mono); padding: 4px 9px; border-radius: var(--r-pill); background: rgba(255, 255, 255, 0.08); border: 1px solid var(--edge); white-space: nowrap; text-decoration: none; }
+</style>

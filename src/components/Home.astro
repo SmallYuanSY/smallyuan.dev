@@ -1,10 +1,18 @@
 ---
+import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import type { Lang } from '../i18n/strings';
+import Nav from './Nav.astro';
+import Hero from './Hero.astro';
+import ChoreShowcase from './ChoreShowcase.astro';
+import { strings, type Lang } from '../i18n/strings';
+import { toChoreViews } from '../lib/chores';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
+const chores = toChoreViews(await getCollection('chores'), lang, strings[lang].projectChip);
 ---
 <Base lang={lang}>
-  <p>SmallYuan</p>
+  <Nav lang={lang} />
+  <Hero lang={lang} />
+  <ChoreShowcase lang={lang} chores={chores} />
 </Base>

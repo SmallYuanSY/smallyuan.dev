@@ -1,0 +1,20 @@
+---
+import { strings, type Lang } from '../i18n/strings';
+
+interface Props { lang: Lang }
+const t = strings[Astro.props.lang];
+---
+<section class="hero">
+  <p class="role">{t.role}</p>
+  <h1>{t.headline.before}<em>{t.headline.em}</em>{t.headline.after}</h1>
+  <p class="how">{t.how}</p>
+</section>
+
+<style>
+  .hero { display: grid; gap: 14px; padding-top: 24px; }
+  .role { margin: 0; font: 500 14px var(--f-display); color: var(--dim); }
+  h1 { margin: 0; max-width: 17ch; font: 700 clamp(2rem, 5.6vw, 3.5rem)/1.18 var(--f-body); letter-spacing: -0.015em; text-wrap: balance; }
+  :global(html[lang='en']) h1 { max-width: 20ch; font-family: var(--f-display); }
+  h1 em { font-style: normal; background: linear-gradient(90deg, var(--warm-2), var(--warm)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .how { margin: 4px 0 0; max-width: 56ch; color: var(--soft); }
+</style>
