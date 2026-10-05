@@ -98,6 +98,17 @@ describe('css fallbacks', () => {
     expect(outside).toMatch(/\.glass\{[^}]*background:\s*(rgba?\(|#)/);
   });
 
+  it('has no render-blocking stylesheet links (fonts load async, site CSS inlined)', () => {
+    for (const path of ['/', '/en/']) {
+      const doc = loadPage(path);
+      const blocking = [...doc.querySelectorAll('link[rel="stylesheet"]')]
+        .filter((l) => !l.closest('noscript'))
+        .map((l) => l.getAttribute('href'));
+      expect(blocking).toEqual([]);
+      expect(doc.querySelector('link[rel="preload"][as="style"][href^="https://fonts.googleapis.com/"]')).not.toBeNull();
+    }
+  });
+
   it('isolates body so the z-index:-1 glow paints above its opaque background', () => {
     expect(readAllCss()).toMatch(/body\s*\{[^}]*isolation:\s*isolate/);
   });
