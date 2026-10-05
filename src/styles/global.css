@@ -10,6 +10,7 @@ body {
   font: 16px/1.65 var(--f-body);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  isolation: isolate; /* own stacking context, so the z-index:-1 .bg paints above this background */
 }
 
 a { color: inherit; }

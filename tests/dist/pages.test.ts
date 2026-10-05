@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { loadPage, readAllCss } from './helpers';
+import { loadPage, readAllCss, readAllOutput } from './helpers';
 
 describe('routes', () => {
   it('builds zh at / with zh-Hant lang', () => {
@@ -87,6 +87,10 @@ describe('css fallbacks', () => {
     expect(css).toMatch(/prefers-reduced-motion:\s*reduce/);
     expect(css).toMatch(/color-scheme:\s*dark/);
   });
+
+  it('isolates body so the z-index:-1 glow paints above its opaque background', () => {
+    expect(readAllCss()).toMatch(/body\s*\{[^}]*isolation:\s*isolate/);
+  });
 });
 
 describe('contact', () => {
@@ -104,4 +108,22 @@ describe('contact', () => {
       expect(loadPage(path).querySelectorAll('script').length).toBeGreaterThanOrEqual(1);
     });
   }
+});
+
+describe('privacy', () => {
+  const forbidden: string[] = []; // list lives in git-ignored tests/dist/private-terms.local.txt
+  it('contains none of the private strings', () => {
+    const out = readAllOutput();
+    const hits = forbidden.filter((s) => out.includes(s));
+    expect(hits).toEqual([]);
+  });
+
+  it('links nowhere that does not exist yet', () => {
+    for (const path of ['/', '/en/']) {
+      const hrefs = [...loadPage(path).querySelectorAll('a')].map((a) => a.getAttribute('href') ?? '');
+      for (const h of hrefs) {
+        expect(h === '/' || h === '/en/' || h.startsWith('https://')).toBe(true);
+      }
+    }
+  });
 });
