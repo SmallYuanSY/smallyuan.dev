@@ -118,10 +118,12 @@ describe('css fallbacks', () => {
     expect(css).toMatch(/--f-body:[^;]*PingFang TC[^;]*Microsoft JhengHei/);
   });
 
-  it('sizes the Inter Tight fallback so the font swap does not reflow (CLS)', () => {
-    const css = readAllCss();
-    expect(css).toMatch(/@font-face\{[^}]*font-family:\s*"?Inter Tight Fallback"?[^}]*size-adjust:/);
-    expect(css).toMatch(/--f-display:\s*"?Inter Tight"?,\s*"?Inter Tight Fallback"?/);
+  it('never swaps web fonts in after first paint (display=optional, no layout shift)', () => {
+    for (const path of ['/', '/en/']) {
+      const hrefs = [...loadPage(path).querySelectorAll('link[href^="https://fonts.googleapis.com/css"]')].map((l) => l.getAttribute('href')!);
+      expect(hrefs.length).toBeGreaterThan(0);
+      for (const href of hrefs) expect(href).toContain('display=optional');
+    }
   });
 
   it('isolates body so the z-index:-1 glow paints above its opaque background', () => {
