@@ -15,8 +15,9 @@
   --glow-1: #2f6bff;
   --glow-2: #ff8a3d;
   --glow-3: #8b5cf6;
-  --f-display: 'Inter Tight', 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
-  --f-body: 'Noto Sans TC', 'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
+  /* Chinese uses system sans (no CJK web font: it held mobile Lighthouse at ~60) */
+  --f-display: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Noto Sans CJK TC', 'Microsoft JhengHei', sans-serif;
+  --f-body: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Noto Sans TC', 'Noto Sans CJK TC', 'Microsoft JhengHei', sans-serif;
   --f-mono: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
   --r-lg: 20px;
   --r-pill: 999px;

@@ -109,6 +109,15 @@ describe('css fallbacks', () => {
     }
   });
 
+  it('uses system CJK fonts instead of a Noto Sans TC web font', () => {
+    const doc = loadPage('/');
+    const fontLinks = [...doc.querySelectorAll('link[href^="https://fonts.googleapis.com/css"]')].map((l) => l.getAttribute('href')!);
+    expect(fontLinks.length).toBeGreaterThan(0);
+    for (const href of fontLinks) expect(href).not.toContain('Noto+Sans+TC');
+    const css = readAllCss();
+    expect(css).toMatch(/--f-body:[^;]*PingFang TC[^;]*Microsoft JhengHei/);
+  });
+
   it('isolates body so the z-index:-1 glow paints above its opaque background', () => {
     expect(readAllCss()).toMatch(/body\s*\{[^}]*isolation:\s*isolate/);
   });

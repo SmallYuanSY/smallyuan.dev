@@ -8,7 +8,8 @@ const { lang } = Astro.props;
 const t = strings[lang];
 const site = Astro.site ?? new URL('https://smallyuan.dev');
 const abs = (l: Lang) => new URL(pathFor(l), site).href;
-const fonts = 'https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter+Tight:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap';
+// Chinese uses system fonts (see tokens.css); only the small Latin families load from Google Fonts.
+const fonts = 'https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter+Tight:wght@500;600;700&display=swap';
 ---
 <!doctype html>
 <html lang={t.htmlLang}>

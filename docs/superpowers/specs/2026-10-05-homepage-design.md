@@ -62,7 +62,8 @@
 - 深色為主（單一深色主題，刻意不做淺色）。
 - Apple Liquid Glass 風格：背景三團緩慢飄動的柔光（藍、橘、紫），其上為半透明毛玻璃面板（`backdrop-filter: blur() saturate()`），面板上緣一道高光。
 - 主標的「好玩的東西」用暖色漸層文字強調，全頁只有這一處強調。
-- 字體：中文 Noto Sans TC；英文 Inter Tight；程式風格的小字用 IBM Plex Mono。
+- 字體：中文：系統黑體（PingFang TC／微軟正黑體／Noto Sans CJK TC）；英文：Inter Tight；程式風格小字：IBM Plex Mono。
+  - 2026-10-05：Noto Sans TC 的網路字型讓行動版 Lighthouse 效能停在 59～60，使用者決定改用系統字。
 - 不支援 `backdrop-filter` 的瀏覽器：顯示為半透明深色面板，版面不變。
 - `prefers-reduced-motion`：背景柔光停止飄動。
 - 手機寬度（約 400px）：兩張卡片改為上下堆疊。
