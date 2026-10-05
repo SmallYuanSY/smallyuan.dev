@@ -1,4 +1,16 @@
 /* Layout: one centered column; hero, then a two-card showcase, then links/contact, all over a drifting glow */
+
+/* Arial scaled to Inter Tight's metrics (capsize: xWidthAvg 880 vs 913, ascent 1984, descent 494, upm 2048),
+   so text laid out before the web font arrives keeps its line breaks when it swaps in. */
+@font-face {
+  font-family: 'Inter Tight Fallback';
+  src: local('Arial'), local('Liberation Sans');
+  size-adjust: 96.39%;
+  ascent-override: 100.51%;
+  descent-override: 25.03%;
+  line-gap-override: 0%;
+}
+
 :root {
   color-scheme: dark;
   --ink: #0b0d12;
@@ -16,7 +28,7 @@
   --glow-2: #ff8a3d;
   --glow-3: #8b5cf6;
   /* Chinese uses system sans (no CJK web font: it held mobile Lighthouse at ~60) */
-  --f-display: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Noto Sans CJK TC', 'Microsoft JhengHei', sans-serif;
+  --f-display: 'Inter Tight', 'Inter Tight Fallback', -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Noto Sans CJK TC', 'Microsoft JhengHei', sans-serif;
   --f-body: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Noto Sans TC', 'Noto Sans CJK TC', 'Microsoft JhengHei', sans-serif;
   --f-mono: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
   --r-lg: 20px;

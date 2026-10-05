@@ -118,6 +118,12 @@ describe('css fallbacks', () => {
     expect(css).toMatch(/--f-body:[^;]*PingFang TC[^;]*Microsoft JhengHei/);
   });
 
+  it('sizes the Inter Tight fallback so the font swap does not reflow (CLS)', () => {
+    const css = readAllCss();
+    expect(css).toMatch(/@font-face\{[^}]*font-family:\s*"?Inter Tight Fallback"?[^}]*size-adjust:/);
+    expect(css).toMatch(/--f-display:\s*"?Inter Tight"?,\s*"?Inter Tight Fallback"?/);
+  });
+
   it('isolates body so the z-index:-1 glow paints above its opaque background', () => {
     expect(readAllCss()).toMatch(/body\s*\{[^}]*isolation:\s*isolate/);
   });
