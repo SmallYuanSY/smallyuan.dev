@@ -12,7 +12,7 @@ const tool = z.object({
 export const choreSchema = z.object({
   order: z.number().int().min(0),
   skill: z.string().regex(/^[a-z0-9-]+$/).optional(),
-  link: z.url().optional(),
+  link: z.url({ protocol: /^https$/ }).optional(),
   from: text,
   to: text,
   chat: z.array(z.union([speech, tool])).min(2).max(4),

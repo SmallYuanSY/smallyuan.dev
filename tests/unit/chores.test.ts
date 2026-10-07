@@ -43,6 +43,15 @@ describe('choreSchema', () => {
   it('rejects a non-URL link', () => {
     expect(choreSchema.safeParse({ ...valid, link: 'not a url' }).success).toBe(false);
   });
+  it.each(['javascript:alert(1)', 'data:text/html,hi', 'ftp://example.com', 'http://example.com'])(
+    'rejects a non-https link: %s',
+    (link) => {
+      expect(choreSchema.safeParse({ ...valid, link }).success).toBe(false);
+    },
+  );
+  it('accepts an https link', () => {
+    expect(choreSchema.safeParse({ ...valid, link: 'https://github.com/SmallYuanSY' }).success).toBe(true);
+  });
   it('rejects a skill name with spaces or capitals', () => {
     expect(choreSchema.safeParse({ ...valid, skill: 'Mac Weather' }).success).toBe(false);
   });
