@@ -26,6 +26,21 @@ describe('routes', () => {
   });
 });
 
+describe('share card', () => {
+  it('points each language at its own large share image that exists', () => {
+    for (const [path, lang] of [['/', 'zh'], ['/en/', 'en']]) {
+      const doc = loadPage(path);
+      const meta = (sel: string) => doc.querySelector(`meta[${sel}]`)?.getAttribute('content');
+      expect(meta('property="og:image"')).toBe(`https://smallyuan.dev/og/${lang}.png`);
+      expect(meta('property="og:image:width"')).toBe('1200');
+      expect(meta('property="og:image:height"')).toBe('630');
+      expect(meta('property="og:image:alt"')).toBe(doc.querySelector('h1')!.textContent);
+      expect(meta('name="twitter:card"')).toBe('summary_large_image');
+      expect(existsSync(new URL(`../../dist/og/${lang}.png`, import.meta.url))).toBe(true);
+    }
+  });
+});
+
 describe('hero', () => {
   it('shows the zh headline with one emphasis', () => {
     const doc = loadPage('/');

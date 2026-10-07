@@ -11,6 +11,7 @@
     "preview": "astro preview",
     "test": "vitest run tests/unit",
     "test:dist": "vitest run tests/dist",
+    "og": "node scripts/og.ts",
     "verify": "npm test && npm run build && npm run test:dist"
   },
   "dependencies": {
