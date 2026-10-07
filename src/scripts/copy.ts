@@ -8,11 +8,31 @@ export async function copyText(text: string, clipboard: { writeText(t: string): 
   }
 }
 
-export function initCopy(button: HTMLButtonElement, target: HTMLElement, labels: { done: string; manual: string }): void {
+const RESET_MS = 2000;
+
+export function initCopy(
+  button: HTMLButtonElement,
+  target: HTMLElement,
+  labels: { done: string; manual: string },
+  status?: HTMLElement,
+): void {
+  const original = button.textContent;
+  let timer: ReturnType<typeof setTimeout> | undefined;
+
+  const show = (message: string) => {
+    button.textContent = message;
+    if (status) status.textContent = message;
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      button.textContent = original;
+      if (status) status.textContent = '';
+    }, RESET_MS);
+  };
+
   button.addEventListener('click', async () => {
     const ok = await copyText(target.textContent?.trim() ?? '', navigator.clipboard);
     if (ok) {
-      button.textContent = labels.done;
+      show(labels.done);
       return;
     }
     const range = document.createRange();
@@ -20,6 +40,6 @@ export function initCopy(button: HTMLButtonElement, target: HTMLElement, labels:
     const selection = window.getSelection();
     selection?.removeAllRanges();
     selection?.addRange(range);
-    button.textContent = labels.manual;
+    show(labels.manual);
   });
 }

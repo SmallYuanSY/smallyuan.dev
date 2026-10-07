@@ -1,5 +1,5 @@
 // @vitest-environment happy-dom
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { copyText, initCopy } from '../../src/scripts/copy';
 
 describe('copyText', () => {
@@ -18,12 +18,19 @@ describe('copyText', () => {
 
 describe('initCopy', () => {
   function setup() {
-    document.body.innerHTML = '<span data-email>yuan@smallyuan.dev</span><button data-copy>複製</button>';
+    document.body.innerHTML =
+      '<span data-email>yuan@smallyuan.dev</span><button data-copy>複製</button><span data-copy-status role="status"></span>';
     return {
       button: document.querySelector<HTMLButtonElement>('[data-copy]')!,
       target: document.querySelector<HTMLElement>('[data-email]')!,
+      status: document.querySelector<HTMLElement>('[data-copy-status]')!,
     };
   }
+  const labels = { done: '已複製', manual: '已選取，請手動複製' };
+  const clipboardOk = () =>
+    Object.defineProperty(navigator, 'clipboard', { configurable: true, value: { writeText: vi.fn().mockResolvedValue(undefined) } });
+
+  afterEach(() => vi.useRealTimers());
 
   it('shows the done label on success', async () => {
     const { button, target } = setup();
@@ -40,5 +47,39 @@ describe('initCopy', () => {
     button.click();
     await vi.waitFor(() => expect(button.textContent).toBe('已選取，請手動複製'));
     expect(window.getSelection()!.toString()).toBe('yuan@smallyuan.dev');
+  });
+
+  it('announces the result in the status region', async () => {
+    const { button, target, status } = setup();
+    clipboardOk();
+    initCopy(button, target, labels, status);
+    button.click();
+    await vi.waitFor(() => expect(status.textContent).toBe('已複製'));
+  });
+
+  it('restores the original label after a moment', async () => {
+    vi.useFakeTimers();
+    const { button, target, status } = setup();
+    clipboardOk();
+    initCopy(button, target, labels, status);
+    button.click();
+    await vi.waitFor(() => expect(button.textContent).toBe('已複製'));
+    vi.advanceTimersByTime(2000);
+    expect(button.textContent).toBe('複製');
+    expect(status.textContent).toBe('');
+  });
+
+  it('restarts the reset timer on a repeat click', async () => {
+    vi.useFakeTimers();
+    const { button, target } = setup();
+    clipboardOk();
+    initCopy(button, target, labels);
+    button.click();
+    await vi.advanceTimersByTimeAsync(1500);
+    button.click();
+    await vi.advanceTimersByTimeAsync(1500);
+    expect(button.textContent).toBe('已複製');
+    await vi.advanceTimersByTimeAsync(500);
+    expect(button.textContent).toBe('複製');
   });
 });

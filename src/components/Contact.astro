@@ -11,6 +11,7 @@ const t = strings[Astro.props.lang];
   <p class="mail">
     <span data-email>{EMAIL}</span>
     <button type="button" data-copy data-done={t.copied} data-manual={t.copyManual}>{t.copy}</button>
+    <span class="sr-only" data-copy-status role="status"></span>
   </p>
 </section>
 
@@ -18,11 +19,13 @@ const t = strings[Astro.props.lang];
   import { initCopy } from '../scripts/copy';
   document.querySelectorAll<HTMLButtonElement>('button[data-copy]').forEach((button) => {
     const target = button.parentElement?.querySelector<HTMLElement>('[data-email]');
-    if (target) initCopy(button, target, { done: button.dataset.done ?? '', manual: button.dataset.manual ?? '' });
+    const status = button.parentElement?.querySelector<HTMLElement>('[data-copy-status]') ?? undefined;
+    if (target) initCopy(button, target, { done: button.dataset.done ?? '', manual: button.dataset.manual ?? '' }, status);
   });
 </script>
 
 <style>
+  .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
   .bottom { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 14px; }
   .links { display: flex; flex-wrap: wrap; gap: 10px; }
   .links a { font: 500 14px var(--f-display); padding: 9px 16px; border-radius: var(--r-pill); text-decoration: none; }
