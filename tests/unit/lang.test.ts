@@ -90,4 +90,14 @@ describe('initLang', () => {
     initLang(document, { languages: [], language: 'ja' }, memoryStorage());
     expect(document.querySelector<HTMLElement>('[data-lang-hint]')!.hidden).toBe(false);
   });
+
+  it('shows the hint only once even if the visitor ignores it', () => {
+    const s = memoryStorage();
+    initLang(document, { languages: ['en-US'] }, s);
+    expect(document.querySelector<HTMLElement>('[data-lang-hint]')!.hidden).toBe(false);
+
+    document.querySelector<HTMLElement>('[data-lang-hint]')!.hidden = true;
+    initLang(document, { languages: ['en-US'] }, s);
+    expect(document.querySelector<HTMLElement>('[data-lang-hint]')!.hidden).toBe(true);
+  });
 });

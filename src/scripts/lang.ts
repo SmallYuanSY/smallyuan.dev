@@ -42,7 +42,11 @@ export function initLang(
   if (!hint) return;
 
   const languages = nav.languages && nav.languages.length > 0 ? nav.languages : nav.language ? [nav.language] : [];
-  if (shouldSuggestEnglish(doc.documentElement.lang, languages, readStored(storage))) hint.hidden = false;
+  if (shouldSuggestEnglish(doc.documentElement.lang, languages, readStored(storage))) {
+    hint.hidden = false;
+    // Offer once: staying on the zh page counts as choosing it; clicking EN still overwrites this.
+    writeStored(storage, 'zh');
+  }
 
   doc.querySelector('[data-lang-dismiss]')?.addEventListener('click', () => {
     writeStored(storage, 'zh');
