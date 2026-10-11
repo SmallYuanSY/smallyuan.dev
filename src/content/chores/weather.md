@@ -1,6 +1,7 @@
 ---
 order: 2
-skill: macos-weather
+skill: weatherwise
+link: https://github.com/SmallYuanSY/skills
 from: { zh: 每天出門前查天氣, en: Checking the weather before going out }
 to: { zh: 用 Apple 天氣提醒我要不要帶傘, en: Apple Weather tells me whether to bring an umbrella }
 chat:
